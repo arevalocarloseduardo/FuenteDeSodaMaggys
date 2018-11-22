@@ -38,29 +38,27 @@ class MainActivity : AppCompatActivity() {
 
         heroList= mutableListOf()
         imagenList= mutableListOf()
-        recyclerImagenes=rv_menus
-        recyclerImagenes.layoutManager = LinearLayoutManager(this,LinearLayout.HORIZONTAL,false)
+        //recyclerImagenes=rv_menus
+        //recyclerImagenes.layoutManager = LinearLayoutManager(this,LinearLayout.HORIZONTAL,false)
 
-        val miAdapter=RecyclerAdapter(imagenList)
+        //val miAdapter=RecyclerAdapter(imagenList)
 
-        recyclerImagenes.adapter=miAdapter
+        //recyclerImagenes.adapter=miAdapter
+//
+       // editText=etNombre
+        //edTelephone=etTel
+        //button=btnEnviar
 
-        editText=etNombre
-        edTelephone=etTel
-        button=btnEnviar
+        //tvPrecioTotal = tvPrecio
 
-        tvPrecioTotal = tvPrecio
-
-        listView=listaView
+       // listView=listaView
 
 
 //***********************************Añadimos metodos*******************************************************************
 
-        button.setOnClickListener {
-            apretaBtn()
-        }
+
 ///////////IMAGENES/////////////////////
-        var miimagen="https://www.google.com.ar/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+        /*var miimagen="https://www.google.com.ar/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
         referenciaImagenes.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -84,7 +82,7 @@ class MainActivity : AppCompatActivity() {
 
                // Picasso.get().load(miimagen).into(image1)
             }
-        })
+        })*/
         referenciaPedidos.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
