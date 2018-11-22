@@ -39,7 +39,7 @@ class RecyclerAdapter(var list: MutableList<Upload>): RecyclerView.Adapter<Recyc
 
                 val heroId = referenciaPedidos.push().key.toString()
                 if (cant.text.isNotEmpty()){
-                    val hero = BaseDeDatos(heroId,"",data.mName,paraLlevar,cant.text.toString().trim(),data.uid,"")
+                    val hero = BaseDeDatos(heroId,"",data.mName,paraLlevar,cant.text.toString().trim(),data.precio,"")
                     referenciaPedidos.child(heroId).setValue(hero)
                 }
         }
@@ -48,19 +48,14 @@ class RecyclerAdapter(var list: MutableList<Upload>): RecyclerView.Adapter<Recyc
                 object : com.squareup.picasso.Callback {
                     override fun onError(e: Exception?) {
                     }
-
                     override fun onSuccess() {
                         itemView.progressBarMenu.visibility = View.GONE
                     }
-
                 })
-
-
+//${data.descripcion}
             itemView.setOnClickListener{
-                Toast.makeText(itemView.context,"probate${text}",Toast.LENGTH_LONG).show()
+                Toast.makeText(itemView.context,"probate",Toast.LENGTH_LONG).show()
             }
         }
-
     }
-
 }

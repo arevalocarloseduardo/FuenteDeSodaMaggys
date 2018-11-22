@@ -2,6 +2,7 @@ package com.yadaapps.caear.pedidosmaggys.Fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 
@@ -19,12 +20,15 @@ class PedirFragment : Fragment() {
 
     lateinit var referenciaImagenes : DatabaseReference
     lateinit var referenciaPedidos : DatabaseReference
+    lateinit var referenciaConfirmados : DatabaseReference
 
     lateinit var pedidosList:MutableList<BaseDeDatos>
     lateinit var imagenList:MutableList<Upload>
 
     lateinit var recyclerImagenes: RecyclerView
     lateinit var recyclerPedidos: RecyclerView
+
+    var precioTotal=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +39,14 @@ class PedirFragment : Fragment() {
 
         referenciaImagenes = FirebaseDatabase.getInstance().getReference("usuarios")
         referenciaPedidos = FirebaseDatabase.getInstance().getReference("Pedidos")
+        referenciaConfirmados = FirebaseDatabase.getInstance().getReference("Confirmados")
         imagenList= mutableListOf()
         pedidosList= mutableListOf()
         recyclerPedidos=v.listaView
         recyclerImagenes=v.rv_menus
+
+        val precio =v.tvPrecio
+        precioTotal = 0
 
 
         recyclerImagenes.layoutManager=LinearLayoutManager(activity,LinearLayout.HORIZONTAL,false)
@@ -70,55 +78,51 @@ class PedirFragment : Fragment() {
         })
 
 //*******************************Pasamos todos los atributos de la base de datos a la lista de pedidos***********************************************
-
-
         referenciaPedidos.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onDataChange(p0: DataSnapshot) {
-
                 if(p0.exists()){
+                    precioTotal=0
                     pedidosList.clear()
                     for (h in p0.children){
                         val hero = h.getValue(BaseDeDatos::class.java)
                         pedidosList.add(hero!!)
                     }
                     recyclerPedidos.adapter=mi2Adapter
-                    //for (h in heroList){
-                    //   precioTotal =precioTotal+ (h.cant.toInt() * h.precio.toInt())
-                    //}
-                    //   tvPrecioTotal.text=precioTotal.toString()
+                    for (h in pedidosList){
+                    precioTotal = precioTotal + (h.cant.toInt() * h.precio.toInt())
+                    }
+                    precio.text=precioTotal.toString()
                 }
                 else{
                     pedidosList.clear()
                     recyclerPedidos.adapter=mi2Adapter
-                    // precioTotal = 0
-                    //for (h in heroList){
-
-                    //     precioTotal =precioTotal + (h.cant.toInt() * h.precio.toInt())
-                    //  }
-                    //   tvPrecioTotal.text=precioTotal.toString()
-
+                    precioTotal = 0
+                    precio.text=precioTotal.toString()
                 }
             }
         }
         )
-
-
-        //val btn =v.btnFragment
-       /* btn.setOnClickListener {
-            val frag2 = GaleryFragment()
+        val nomCliente = v.etNombre
+        val telefono = v.etTel
+        val btn =v.btnEnviar
+        btn.setOnClickListener {
+            val frag2 = PedidosFragment()
 
             fragmentManager
                 ?.beginTransaction()
-                ?.add(R.id.frameConta,frag2)
+                ?.add(R.id.contenedorFragments,frag2)
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 ?.commit()
-            // val manager=fragmentManager
-            // val frag_transition = manager?.beginTransaction()
-            // frag_transition?.add(R.id.frameConta,frag2)
-            // frag_transition?.commit()
-        }*/
+
+            for (h in pedidosList){
+                val heroId = referenciaPedidos.push().key.toString()
+                val hero = BaseDeDatos(heroId,nomCliente.text.toString().trim(),h.menu,h.llevar,h.cant,h.precio,telefono.text.toString().trim())
+                referenciaConfirmados.child(heroId).setValue(hero)
+            }
+            referenciaPedidos.removeValue()
+        }
         return v
     }
     companion object {

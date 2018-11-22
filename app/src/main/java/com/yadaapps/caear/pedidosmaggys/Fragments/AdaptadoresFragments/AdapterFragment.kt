@@ -12,8 +12,6 @@ import com.yadaapps.caear.pedidosmaggys.BaseDeDatos
 import com.yadaapps.caear.pedidosmaggys.R
 import kotlinx.android.synthetic.main.datos.view.*
 
-
-
 class AdapterFragment(var list: MutableList<BaseDeDatos>): RecyclerView.Adapter<AdapterFragment.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.datos,parent,false)
@@ -29,7 +27,6 @@ class AdapterFragment(var list: MutableList<BaseDeDatos>): RecyclerView.Adapter<
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         fun bindItems(data: BaseDeDatos){
 
-
             val menu = itemView.tvMenu
             val cant= itemView.tvCant
             val llevar= itemView.tvLlevar
@@ -40,18 +37,11 @@ class AdapterFragment(var list: MutableList<BaseDeDatos>): RecyclerView.Adapter<
             llevar.text = data.llevar
             btnDelete.setOnClickListener {
                 deleteInfo(data)
-
             }
-
-
         }
-
         private fun deleteInfo(data: BaseDeDatos) {
             val myBaseDeDatos = FirebaseDatabase.getInstance().getReference("Pedidos")
             myBaseDeDatos.child(data.id).removeValue()
-
         }
-
     }
-
 }
