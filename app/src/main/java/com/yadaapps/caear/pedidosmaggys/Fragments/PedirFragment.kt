@@ -112,7 +112,7 @@ class PedirFragment : Fragment() {
 
             fragmentManager
                 ?.beginTransaction()
-                ?.add(R.id.contenedorFragments,frag2)
+                ?.replace(R.id.contenedorFragments,frag2)
                 ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 ?.commit()
 
