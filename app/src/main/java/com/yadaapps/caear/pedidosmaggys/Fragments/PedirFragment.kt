@@ -87,6 +87,7 @@ class PedirFragment : Fragment() {
                     pedidosList.clear()
                     for (h in p0.children){
                         val hero = h.getValue(BaseDeDatos::class.java)
+
                         pedidosList.add(hero!!)
                     }
                     recyclerPedidos.adapter=mi2Adapter

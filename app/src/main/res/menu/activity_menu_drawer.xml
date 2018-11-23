@@ -7,11 +7,11 @@
         <item
                 android:id="@+id/nav_camera"
                 android:icon="@android:drawable/ic_menu_agenda"
-                android:title="Pedir"/>
+                android:title="Hacer Pedido"/>
         <item
                 android:id="@+id/nav_gallery"
                 android:icon="@drawable/ic_menu_gallery"
-                android:title="Gallery"/>
+                android:title="Pedidos"/>
         <item
                 android:id="@+id/nav_slideshow"
                 android:icon="@drawable/ic_menu_slideshow"

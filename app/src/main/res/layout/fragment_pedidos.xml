@@ -12,7 +12,7 @@
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:textSize="18sp" android:textAlignment="center" android:id="@+id/textView3"
+            android:textSize="18sp" android:textAlignment="center" android:id="@+id/tvError"
             app:layout_constraintHorizontal_bias="0.508" android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/btnFragment"/>
     <Button
@@ -23,13 +23,25 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/btnFragment"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginBottom="84dp" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.538"/>
     <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/recyPedidos"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/recyPedidos">
+    </android.support.v7.widget.RecyclerView>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/progressBarPedidos" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

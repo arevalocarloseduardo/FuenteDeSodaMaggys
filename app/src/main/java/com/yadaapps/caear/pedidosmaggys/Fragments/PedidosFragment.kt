@@ -13,15 +13,16 @@ import android.widget.LinearLayout
 import com.google.firebase.database.*
 import com.yadaapps.caear.pedidosmaggys.BaseDeDatos
 import com.yadaapps.caear.pedidosmaggys.Fragments.AdaptadoresFragments.AdapterFragment
+import com.yadaapps.caear.pedidosmaggys.Fragments.AdaptadoresFragments.PedidosAdapter
 import com.yadaapps.caear.pedidosmaggys.R
 import com.yadaapps.caear.pedidosmaggys.Upload
 import kotlinx.android.synthetic.main.fragment_pedidos.view.*
 import kotlinx.android.synthetic.main.fragment_pedir.view.*
+import kotlinx.android.synthetic.main.menus.view.*
 
 class PedidosFragment : Fragment() {
     lateinit var referenciaConfirmados1 : DatabaseReference
     lateinit var pedidosList1:MutableList<BaseDeDatos>
-    lateinit var soloLosPedidos:MutableList<BaseDeDatos>
     lateinit var recyclerPedidos1: RecyclerView
 
 
@@ -30,42 +31,57 @@ class PedidosFragment : Fragment() {
         val v=inflater.inflate(R.layout.fragment_pedidos, container, false)
         referenciaConfirmados1 = FirebaseDatabase.getInstance().getReference("Confirmados")
         pedidosList1= mutableListOf()
-        soloLosPedidos= mutableListOf()
         recyclerPedidos1=v.recyPedidos
         val nombreDeCliente="Carlos"
+        val btn_agregar=v.btnFragment
 
 
         recyclerPedidos1.layoutManager= LinearLayoutManager(activity, LinearLayout.VERTICAL,false)
-        val mi2Adapter= AdapterFragment(soloLosPedidos)
+        val mi2Adapter= PedidosAdapter(pedidosList1)
         recyclerPedidos1.adapter =mi2Adapter
 
         referenciaConfirmados1.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
-            override fun onDataChange(p0: DataSnapshot) {
-                if(p0.exists()){
-
+            override fun onDataChange(p0: DataSnapshot)
+            {val progres =v.progressBarPedidos
+                if(p0.exists())
+                {
+                    progres.visibility = View.VISIBLE
+                    recyclerPedidos1.visibility = View.INVISIBLE
                     pedidosList1.clear()
-                    for (h in p0.children){
-
+                    for (h in p0.children)
+                    {
+                        val cliente = h.getValue(BaseDeDatos::class.java)?.cliente
                         val hero = h.getValue(BaseDeDatos::class.java)
-                        pedidosList1.add(hero!!)
-                        for (h in pedidosList1)
-                            if (h.cliente==nombreDeCliente){
-                                for (h in soloLosPedidos){
-                                    val heroId = referenciaConfirmados1.push().key.toString()
-                                    val hero = BaseDeDatos(heroId,h.cliente,h.menu,h.llevar,h.cant,h.precio,h.telefono)
-                                    recyclerPedidos1.adapter=mi2Adapter
-                                }
-
-                            }
-
+                        if (cliente==nombreDeCliente){
+                            pedidosList1.add(hero!!)
+                            progres.visibility = View.INVISIBLE
+                            recyclerPedidos1.visibility = View.VISIBLE
+                            recyclerPedidos1.adapter=mi2Adapter
+                        }
                     }
+                }else pedidosList1.clear()
+                if (pedidosList1.isEmpty()){
+                    val btn = v.btnFragment
+                    val txt = v.tvError
+                    btn.visibility = View.VISIBLE
+                    txt.visibility = View.VISIBLE
+                    progres.visibility = View.INVISIBLE
+                    recyclerPedidos1.visibility = View.INVISIBLE
+                }
+            }
+        })
+        btn_agregar.setOnClickListener {
+
         }
 
-
-             }})
-            return v
-
-}
+        return v
+    }
+    companion object {
+        fun newInstance(): PedidosFragment{
+            val fragment=PedidosFragment()
+            return fragment
+        }
+    }
 }

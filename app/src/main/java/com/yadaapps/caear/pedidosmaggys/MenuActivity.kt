@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.app_bar_menu.*
 class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var pedirFragment:PedirFragment//Primer Caso para crear un fragment
-    lateinit var pedidosFragmetn:PedidosFragment
+    lateinit var pedidosFragment:PedidosFragment
 
 
 
@@ -28,7 +28,7 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         pedirFragment=PedirFragment.newInstance()//segundo Paso para crear un fragment
-
+        pedidosFragment=PedidosFragment.newInstance()
 
 
         val toggle = ActionBarDrawerToggle(
@@ -76,6 +76,12 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.nav_gallery -> {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.contenedorFragments,pedidosFragment)
+                    //.addToBackStack(PedidosFragment.toString())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
 
             }
             R.id.nav_slideshow -> {
