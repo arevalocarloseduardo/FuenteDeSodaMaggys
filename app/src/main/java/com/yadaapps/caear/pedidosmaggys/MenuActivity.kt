@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
 import com.yadaapps.caear.pedidosmaggys.Fragments.PedidosFragment
 import com.yadaapps.caear.pedidosmaggys.Fragments.PedirFragment
 import kotlinx.android.synthetic.main.activity_menu.*
@@ -26,6 +27,10 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         setSupportActionBar(toolbar)
+
+        val uid = FirebaseAuth.getInstance().uid
+
+        if(uid==null)
 
         pedirFragment=PedirFragment.newInstance()//segundo Paso para crear un fragment
         pedidosFragment=PedidosFragment.newInstance()

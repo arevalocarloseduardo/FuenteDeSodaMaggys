@@ -74,7 +74,7 @@ class SubirImagen : AppCompatActivity() {
     private fun salvarUsuarioFirebase(imagenUrl:String) //recibo la direccion de la imagen
     {
         val uid = FirebaseAuth.getInstance().uid ?:""//guardo en uid la autentificacion
-        val ref = FirebaseDatabase.getInstance().getReference("/usuarios/Carlos")//carlos= $uid creo una base de datos re piola
+        val ref = FirebaseDatabase.getInstance().getReference("/usuarios/$uid")//carlos= $uid creo una base de datos re piola
         val user = Upload("Carlos","nombre",imagenUrl,"","")//guardo la imagen y
         ref.setValue(user)
     }
@@ -90,6 +90,8 @@ class SubirImagen : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==0 && resultCode == Activity.RESULT_OK && data !=null){
             //se selecciona una imagen de la galeria
+
+           // intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)// con esto se cierra todas las activitys anteriores
 
             selectedPhotoUrl = data.data
             //se guarda el dato en selecedPhotoUrl
