@@ -1,0 +1,89 @@
+package com.yadaapps.caear.pedidosmaggys
+
+import android.content.Intent
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
+import android.widget.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.view.*
+
+class RegisterActivity : AppCompatActivity() {
+    lateinit var txtName: EditText
+    lateinit var txtCorreo:EditText
+    lateinit var txtPasword:EditText
+    lateinit var progresBar:ProgressBar
+    lateinit var dbRefernce:DatabaseReference
+    lateinit var database:FirebaseDatabase
+    lateinit var auth: FirebaseAuth
+    lateinit var btnRegister:Button
+    lateinit var sda:TextView
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_register)
+        txtName = input_name
+        txtCorreo = input_email
+        txtPasword = input_password
+        progresBar = progressBarHori
+        btnRegister = btn_signup
+        sda=link_login
+
+        sda.setOnClickListener {
+            startActivity((Intent(this,LoginActivity::class.java)))
+        }
+
+
+        database= FirebaseDatabase.getInstance()
+        auth= FirebaseAuth.getInstance()
+        dbRefernce=database.reference.child("User")
+        btnRegister.setOnClickListener {
+            createNewCuenta()
+        }
+
+
+    }
+
+    private fun createNewCuenta() {
+        val name:String=txtName.text.toString()
+        val correo:String=txtCorreo.text.toString()
+        val contraseña:String=txtPasword.text.toString()
+
+        if(!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(correo)&&!TextUtils.isEmpty(contraseña)){
+            progresBar.visibility=View.VISIBLE
+            auth.createUserWithEmailAndPassword(correo,contraseña)
+                .addOnCompleteListener(this){
+                    task ->
+                    if (task.isComplete){
+                        val user:FirebaseUser?=auth.currentUser
+                        verifyEmail(user)
+                        val userBD=dbRefernce.child(user!!.uid)
+                        userBD.child("name").setValue(name)
+                        action()
+                    }
+                }
+        }
+
+    }
+    private fun action() {
+        startActivity((Intent(this,LoginActivity::class.java)))
+
+    }
+
+    private fun verifyEmail(user:FirebaseUser?) {
+        user?.sendEmailVerification()
+            ?.addOnCompleteListener(this){
+                task ->
+                if (task.isComplete){
+                    Toast.makeText(this,"email enviado",Toast.LENGTH_LONG).show()
+                }else{Toast.makeText(this,"Error de correo",Toast.LENGTH_LONG).show()}
+            }
+    }
+
+}

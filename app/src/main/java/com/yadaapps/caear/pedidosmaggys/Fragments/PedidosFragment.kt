@@ -73,7 +73,12 @@ class PedidosFragment : Fragment() {
             }
         })
         btn_agregar.setOnClickListener {
-
+            val frag2 = PedirFragment()
+            fragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.contenedorFragments,frag2)
+                ?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                ?.commit()
         }
 
         return v

@@ -21,13 +21,12 @@
         <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/edCant"
                 app:layout_constraintStart_toEndOf="@+id/btn_agregarMenu"
                 app:layout_constraintEnd_toStartOf="@+id/cbLLevarMenu" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imagenMenu" android:layout_marginEnd="8dp"
-                android:hint="Cant."/>
+                app:layout_constraintBottom_toBottomOf="@+id/imagenMenu" android:layout_marginEnd="5dp"
+                android:hint="Cant." android:inputType="number"/>
         <CheckBox
                 android:text="LLevar"
                 android:layout_width="wrap_content"
