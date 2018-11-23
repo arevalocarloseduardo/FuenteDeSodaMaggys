@@ -38,8 +38,6 @@ class RegisterActivity : AppCompatActivity() {
         sda.setOnClickListener {
             startActivity((Intent(this,LoginActivity::class.java)))
         }
-
-
         database= FirebaseDatabase.getInstance()
         auth= FirebaseAuth.getInstance()
         dbRefernce=database.reference.child("User")
@@ -72,8 +70,12 @@ class RegisterActivity : AppCompatActivity() {
 
     }
     private fun action() {
-        startActivity((Intent(this,LoginActivity::class.java)))
 
+        val uid = FirebaseAuth.getInstance().uid ?:""//guardo en uid la autentificacion
+        val ref = FirebaseDatabase.getInstance().getReference("/Users/$uid")//carlos= $uid creo una base de datos re piola
+        val user = Upload(uid,"nombre","puntos","","")//guardo la imagen y
+        ref.setValue(user)
+        startActivity(Intent(this,LoginActivity::class.java))
     }
 
     private fun verifyEmail(user:FirebaseUser?) {
@@ -85,5 +87,4 @@ class RegisterActivity : AppCompatActivity() {
                 }else{Toast.makeText(this,"Error de correo",Toast.LENGTH_LONG).show()}
             }
     }
-
 }

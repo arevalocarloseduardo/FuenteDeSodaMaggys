@@ -1,5 +1,6 @@
 package com.yadaapps.caear.pedidosmaggys.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.yadaapps.caear.pedidosmaggys.*
 import com.yadaapps.caear.pedidosmaggys.Fragments.AdaptadoresFragments.AdapterFragment
@@ -32,11 +34,23 @@ class PedirFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val uid = FirebaseAuth.getInstance().uid
+        if(uid==null){
+            val intent = Intent(activity, RegisterActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val v= inflater.inflate(R.layout.fragment_pedir, container, false)
-
+        val uid = FirebaseAuth.getInstance().uid
+        if(uid==null){
+            val intent = Intent(activity, LoginActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
         referenciaImagenes = FirebaseDatabase.getInstance().getReference("usuarios")
         referenciaPedidos = FirebaseDatabase.getInstance().getReference("Pedidos")
         referenciaConfirmados = FirebaseDatabase.getInstance().getReference("Confirmados")
@@ -105,6 +119,7 @@ class PedirFragment : Fragment() {
             }
         }
         )
+
         val nomCliente = v.etNombre
         val telefono = v.etTel
         val btn =v.btnEnviar

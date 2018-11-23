@@ -1,5 +1,6 @@
 package com.yadaapps.caear.pedidosmaggys
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.yadaapps.caear.pedidosmaggys.Fragments.PedidosFragment
 import com.yadaapps.caear.pedidosmaggys.Fragments.PedirFragment
 import kotlinx.android.synthetic.main.activity_menu.*
@@ -28,10 +30,15 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_menu)
         setSupportActionBar(toolbar)
 
-        val uid = FirebaseAuth.getInstance().uid
 
-        if(uid==null)
 
+        /*var fire = FirebaseAuth.getInstance()
+
+            if(fire.currentUser == null){
+                finish()
+                startActivity(Intent(this,LoginActivity::class.java))
+            }
+*/
         pedirFragment=PedirFragment.newInstance()//segundo Paso para crear un fragment
         pedidosFragment=PedidosFragment.newInstance()
 
@@ -60,14 +67,21 @@ class MenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
+            R.id.action_settings ->  {
+                var firse = FirebaseAuth.getInstance()
+                firse.signOut()
+                //val uid = FirebaseAuth.getInstance().uid
+               // if(uid==null){
+                finish()
+                    startActivity(Intent(this,LoginActivity::class.java))
+            }
+
         }
+        return true
     }
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.

@@ -12,7 +12,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".RegisterActivity"
+                android:name=".MenuActivity"
+                android:label="@string/title_activity_menu"
+                android:theme="@style/AppTheme.NoActionBar"
                 >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,9 +26,7 @@
         <activity android:name=".SubirImagen">
         </activity>
 
-        <activity android:name=".MenuActivity"
-                  android:label="@string/title_activity_menu"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".RegisterActivity">
         </activity>
         <activity android:name=".LoginActivity">
         </activity>

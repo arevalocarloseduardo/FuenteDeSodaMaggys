@@ -19,6 +19,10 @@ import com.yadaapps.caear.pedidosmaggys.Upload
 import kotlinx.android.synthetic.main.fragment_pedidos.view.*
 import kotlinx.android.synthetic.main.fragment_pedir.view.*
 import kotlinx.android.synthetic.main.menus.view.*
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+
+
 
 class PedidosFragment : Fragment() {
     lateinit var referenciaConfirmados1 : DatabaseReference
@@ -36,6 +40,7 @@ class PedidosFragment : Fragment() {
         val btn_agregar=v.btnFragment
 
 
+
         recyclerPedidos1.layoutManager= LinearLayoutManager(activity, LinearLayout.VERTICAL,false)
         val mi2Adapter= PedidosAdapter(pedidosList1)
         recyclerPedidos1.adapter =mi2Adapter
@@ -50,6 +55,10 @@ class PedidosFragment : Fragment() {
                     progres.visibility = View.VISIBLE
                     recyclerPedidos1.visibility = View.INVISIBLE
                     pedidosList1.clear()
+                    //referenciaConfirmados1.setValue(ServerValue.TIMESTAMP) para pasar la hora del servidorDatabaseReference ref = FirebaseDatabase.getInstance().getReference(); String key = ref.push().getKey(); // this will create a new unique key Map<String, Object> value = new HashMap<>(); value.put("name", "shesh"); value.put("address", "lucknow"); value.put("timestamp", ServerValue.TIMESTAMP); ref.child(key).setValue(value);
+                   // val ref = FirebaseDatabase.getInstance().reference
+                   // val key = ref.push()
+                       // .key // this will create a new unique key Map<String, Object> value = new HashMap<>(); value.put("name", "shesh"); value.put("address", "lucknow"); value.put("timestamp", ServerValue.TIMESTAMP); ref.child(key).setValue(value);
                     for (h in p0.children)
                     {
                         val cliente = h.getValue(BaseDeDatos::class.java)?.cliente
